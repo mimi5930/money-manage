@@ -6,6 +6,20 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // get all products
 router.get('/', (req, res) => {
   // find all products
+  Product.findAll({
+    include: [
+      {
+        model: Category,
+        attributes: ['id', 'category_name']
+      }
+    ]
+  })
+    .then((dbProductData) => {
+      res.json(dbProductData);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
   // be sure to include its associated Category and Tag data
 });
 
@@ -32,7 +46,7 @@ router.post('/', (req, res) => {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
             product_id: product.id,
-            tag_id,
+            tag_id
           };
         });
         return ProductTag.bulkCreate(productTagIdArr);
@@ -52,8 +66,8 @@ router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
     where: {
-      id: req.params.id,
-    },
+      id: req.params.id
+    }
   })
     .then((product) => {
       // find all associated tags from ProductTag
@@ -68,7 +82,7 @@ router.put('/:id', (req, res) => {
         .map((tag_id) => {
           return {
             product_id: req.params.id,
-            tag_id,
+            tag_id
           };
         });
       // figure out which ones to remove
@@ -79,7 +93,7 @@ router.put('/:id', (req, res) => {
       // run both actions
       return Promise.all([
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
-        ProductTag.bulkCreate(newProductTags),
+        ProductTag.bulkCreate(newProductTags)
       ]);
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
