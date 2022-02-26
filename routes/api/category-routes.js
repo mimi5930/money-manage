@@ -41,7 +41,18 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  // create a new category
+  /* expects:
+  {
+    category_name: 'sports_equipment'
+  }
+  */
+  Category.create(req.body)
+    .then((newCat) => {
+      res.json(newCat);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
 });
 
 router.put('/:id', (req, res) => {
