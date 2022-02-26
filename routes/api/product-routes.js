@@ -20,12 +20,26 @@ router.get('/', (req, res) => {
     .catch((err) => {
       res.status(500).json(err);
     });
-  // be sure to include its associated Category and Tag data
 });
 
 // get one product
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
+  Product.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: {
+      model: Category,
+      attributes: ['id', 'category_name']
+    }
+  })
+    .then((dbProductData) => {
+      res.json(dbProductData);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
   // be sure to include its associated Category and Tag data
 });
 
