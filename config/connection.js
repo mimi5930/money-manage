@@ -1,16 +1,15 @@
-// require('dotenv').config();
-const pw = require('../pw.json');
+require('dotenv').config();
 
 const Sequelize = require('sequelize');
 
 const sequelize = process.env.JAWSDB_URL
   ? new Sequelize(process.env.JAWSDB_URL)
-  : new Sequelize(pw.DB_NAME, pw.DB_USER, pw.DB_PW, {
+  : new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PW, {
       host: 'localhost',
       dialect: 'mysql',
       dialectOptions: {
-        decimalNumbers: true,
-      },
+        decimalNumbers: true
+      }
     });
 
 module.exports = sequelize;
