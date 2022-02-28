@@ -31,6 +31,8 @@ DB_PW=your_mysql_password
 
 - The following video show the app's functionality
 
+[![Video desplaying the app being used](images\money-manager.PNG)](https://drive.google.com/file/d/1STFIY2uPro46j0LQnltg2mfJGx3bIaLa/view)
+
 - To use this application, run the app from the root direcotry
 
 ```
